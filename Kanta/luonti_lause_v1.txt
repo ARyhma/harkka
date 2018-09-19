@@ -1,0 +1,219 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema harjoitustyo_1_ryhma
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema harjoitustyo_1_ryhma
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `harjoitustyo_1_ryhma` DEFAULT CHARACTER SET utf8 ;
+USE `harjoitustyo_1_ryhma` ;
+
+-- -----------------------------------------------------
+-- Table `harjoitustyo_1_ryhma`.`asiakas`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `harjoitustyo_1_ryhma`.`asiakas` ;
+
+CREATE TABLE IF NOT EXISTS `harjoitustyo_1_ryhma`.`asiakas` (
+  `asiakasID` INT NOT NULL,
+  `etunimi` VARCHAR(45) NULL,
+  `sukunimi` VARCHAR(45) NULL,
+  `osoite` VARCHAR(45) NULL,
+  `postinumero` INT NULL,
+  `postitoimipaikka` VARCHAR(45) NULL,
+  PRIMARY KEY (`asiakasID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `harjoitustyo_1_ryhma`.`tili`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `harjoitustyo_1_ryhma`.`tili` ;
+
+CREATE TABLE IF NOT EXISTS `harjoitustyo_1_ryhma`.`tili` (
+  `tiliID` INT NOT NULL,
+  `tilinnimi` VARCHAR(45) NULL,
+  `tilinumero` VARCHAR(18) NULL,
+  `saldo` DECIMAL(99,2) NULL,
+  `omistajaID` INT NOT NULL,
+  PRIMARY KEY (`tiliID`),
+  INDEX `fk_tili_asiakas1_idx` (`omistajaID` ASC),
+  CONSTRAINT `fk_tili_asiakas1`
+    FOREIGN KEY (`omistajaID`)
+    REFERENCES `harjoitustyo_1_ryhma`.`asiakas` (`asiakasID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `harjoitustyo_1_ryhma`.`pankkikortit`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `harjoitustyo_1_ryhma`.`pankkikortit` ;
+
+CREATE TABLE IF NOT EXISTS `harjoitustyo_1_ryhma`.`pankkikortit` (
+  `pankkikorttiID` INT NOT NULL,
+  `pankkikortinnimi` VARCHAR(45) NULL,
+  `voimassaolo` DATETIME NOT NULL,
+  `kortinnumero` DOUBLE NOT NULL,
+  `asiakasid` INT NOT NULL,
+  `tili_tiliID` INT NOT NULL,
+  PRIMARY KEY (`pankkikorttiID`),
+  INDEX `fk_pankkikortit_asiakas_idx` (`asiakasid` ASC),
+  INDEX `fk_pankkikortit_tili1_idx` (`tili_tiliID` ASC),
+  CONSTRAINT `fk_pankkikortit_asiakas`
+    FOREIGN KEY (`asiakasid`)
+    REFERENCES `harjoitustyo_1_ryhma`.`asiakas` (`asiakasID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_pankkikortit_tili1`
+    FOREIGN KEY (`tili_tiliID`)
+    REFERENCES `harjoitustyo_1_ryhma`.`tili` (`tiliID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `harjoitustyo_1_ryhma`.`tapahtumat`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `harjoitustyo_1_ryhma`.`tapahtumat` ;
+
+CREATE TABLE IF NOT EXISTS `harjoitustyo_1_ryhma`.`tapahtumat` (
+  `tapahtumaid` INT NOT NULL,
+  `tapahtuma` VARCHAR(45) NULL,
+  PRIMARY KEY (`tapahtumaid`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `harjoitustyo_1_ryhma`.`tilitapahtumat`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `harjoitustyo_1_ryhma`.`tilitapahtumat` ;
+
+CREATE TABLE IF NOT EXISTS `harjoitustyo_1_ryhma`.`tilitapahtumat` (
+  `ID` INT NOT NULL,
+  `saajannimi` VARCHAR(45) NULL,
+  `IBAN` VARCHAR(18) NULL,
+  `BIC` VARCHAR(12) NULL,
+  `viite` VARCHAR(45) NULL,
+  `viesti` VARCHAR(45) NULL,
+  `maara` DECIMAL(20,2) NULL,
+  `tiliID` INT NOT NULL,
+  `tapahtumaid` INT NOT NULL,
+  `aika` DATETIME NULL,
+  `erapaiva` DATETIME NULL,
+  PRIMARY KEY (`ID`),
+  INDEX `fk_tilitapahtumat_tili1_idx` (`tiliID` ASC),
+  INDEX `fk_tilitapahtumat_tapahtumat1_idx` (`tapahtumaid` ASC),
+  CONSTRAINT `fk_tilitapahtumat_tili1`
+    FOREIGN KEY (`tiliID`)
+    REFERENCES `harjoitustyo_1_ryhma`.`tili` (`tiliID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tilitapahtumat_tapahtumat1`
+    FOREIGN KEY (`tapahtumaid`)
+    REFERENCES `harjoitustyo_1_ryhma`.`tapahtumat` (`tapahtumaid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `harjoitustyo_1_ryhma`.`tunnarit`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `harjoitustyo_1_ryhma`.`tunnarit` ;
+
+CREATE TABLE IF NOT EXISTS `harjoitustyo_1_ryhma`.`tunnarit` (
+  `asiakasID` INT NOT NULL,
+  `kayttajatunnus` VARCHAR(45) NULL,
+  `passu` VARCHAR(45) NULL,
+  INDEX `fk_tunnarit_asiakas1_idx` (`asiakasID` ASC),
+  UNIQUE INDEX `asiakasID_UNIQUE` (`asiakasID` ASC),
+  CONSTRAINT `fk_tunnarit_asiakas1`
+    FOREIGN KEY (`asiakasID`)
+    REFERENCES `harjoitustyo_1_ryhma`.`asiakas` (`asiakasID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+-- -----------------------------------------------------
+-- Data for table `harjoitustyo_1_ryhma`.`asiakas`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `harjoitustyo_1_ryhma`;
+INSERT INTO `harjoitustyo_1_ryhma`.`asiakas` (`asiakasID`, `etunimi`, `sukunimi`, `osoite`, `postinumero`, `postitoimipaikka`) VALUES (1, 'Tomi', 'Mujunen', 'Suurosentie 6', 41400, 'Lievestuore');
+INSERT INTO `harjoitustyo_1_ryhma`.`asiakas` (`asiakasID`, `etunimi`, `sukunimi`, `osoite`, `postinumero`, `postitoimipaikka`) VALUES (2, 'Aku', 'Ankka', 'Ankkalankuja 1', 31300, 'Ankkala');
+INSERT INTO `harjoitustyo_1_ryhma`.`asiakas` (`asiakasID`, `etunimi`, `sukunimi`, `osoite`, `postinumero`, `postitoimipaikka`) VALUES (3, 'Hessu', 'Hopo', 'Hopolankuja 666', 54321, 'Jokupaikka');
+INSERT INTO `harjoitustyo_1_ryhma`.`asiakas` (`asiakasID`, `etunimi`, `sukunimi`, `osoite`, `postinumero`, `postitoimipaikka`) VALUES (4, 'Kalle', 'Kala', 'Kalala 999', 00001, 'Pohjalla');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `harjoitustyo_1_ryhma`.`tili`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `harjoitustyo_1_ryhma`;
+INSERT INTO `harjoitustyo_1_ryhma`.`tili` (`tiliID`, `tilinnimi`, `tilinumero`, `saldo`, `omistajaID`) VALUES (1, 'Tomin tili', 'FI4347564758654889', 20, 1);
+INSERT INTO `harjoitustyo_1_ryhma`.`tili` (`tiliID`, `tilinnimi`, `tilinumero`, `saldo`, `omistajaID`) VALUES (2, 'Akun tili', 'FI4389763256842454', 666, 2);
+INSERT INTO `harjoitustyo_1_ryhma`.`tili` (`tiliID`, `tilinnimi`, `tilinumero`, `saldo`, `omistajaID`) VALUES (3, 'Hessu hopola', 'FI4386133546852158', 2000000, 3);
+INSERT INTO `harjoitustyo_1_ryhma`.`tili` (`tiliID`, `tilinnimi`, `tilinumero`, `saldo`, `omistajaID`) VALUES (4, 'Tomin saastotili', 'FI4347564758654899', 999999, 1);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `harjoitustyo_1_ryhma`.`pankkikortit`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `harjoitustyo_1_ryhma`;
+INSERT INTO `harjoitustyo_1_ryhma`.`pankkikortit` (`pankkikorttiID`, `pankkikortinnimi`, `voimassaolo`, `kortinnumero`, `asiakasid`, `tili_tiliID`) VALUES (1, 'Tomin masteri', '2020-09-19 00:00:00', 123456781234, 1, 1);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `harjoitustyo_1_ryhma`.`tapahtumat`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `harjoitustyo_1_ryhma`;
+INSERT INTO `harjoitustyo_1_ryhma`.`tapahtumat` (`tapahtumaid`, `tapahtuma`) VALUES (1, 'e-maksu');
+INSERT INTO `harjoitustyo_1_ryhma`.`tapahtumat` (`tapahtumaid`, `tapahtuma`) VALUES (2, 'Korttiosto');
+INSERT INTO `harjoitustyo_1_ryhma`.`tapahtumat` (`tapahtumaid`, `tapahtuma`) VALUES (3, 'Itsepalvelu');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `harjoitustyo_1_ryhma`.`tilitapahtumat`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `harjoitustyo_1_ryhma`;
+INSERT INTO `harjoitustyo_1_ryhma`.`tilitapahtumat` (`ID`, `saajannimi`, `IBAN`, `BIC`, `viite`, `viesti`, `maara`, `tiliID`, `tapahtumaid`, `aika`, `erapaiva`) VALUES (1, 'Masa Mainio', 'FI4950009420028730', 'OKOYFIHH', '12348765', 'Isille rahaa', 200.20, 1, 3, '2018-09-19 16:53:47', NULL);
+INSERT INTO `harjoitustyo_1_ryhma`.`tilitapahtumat` (`ID`, `saajannimi`, `IBAN`, `BIC`, `viite`, `viesti`, `maara`, `tiliID`, `tapahtumaid`, `aika`, `erapaiva`) VALUES (2, 'Matti Mainio', 'FI4950009420028733', 'DABAFIHH', '987654321', 'Olut massit', 1000, 1, 1, '2018-09-19 16:53:47', NULL);
+INSERT INTO `harjoitustyo_1_ryhma`.`tilitapahtumat` (`ID`, `saajannimi`, `IBAN`, `BIC`, `viite`, `viesti`, `maara`, `tiliID`, `tapahtumaid`, `aika`, `erapaiva`) VALUES (3, 'Kalle Katala', 'FI4650119420028733', 'APANKKI', '666', 'Kalliiksi kavi', 9999, 2, 2, '2018-09-19 16:53:47', NULL);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `harjoitustyo_1_ryhma`.`tunnarit`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `harjoitustyo_1_ryhma`;
+INSERT INTO `harjoitustyo_1_ryhma`.`tunnarit` (`asiakasID`, `kayttajatunnus`, `passu`) VALUES (1, 'tomim', 'kala');
+INSERT INTO `harjoitustyo_1_ryhma`.`tunnarit` (`asiakasID`, `kayttajatunnus`, `passu`) VALUES (2, 'tunnus', 'eiole');
+
+COMMIT;
+
