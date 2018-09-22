@@ -20,9 +20,7 @@
     	 print ("Error code: " . $e->getCode () . "\n");
     	 print ("Error message: " . $e->getMessage () . "\n");
     	}
-    ?>
 
-    <?php
     function get_books()
     {
 //        include "connection.php";
@@ -31,11 +29,7 @@
         $resultArray = $resultObject->fetchAll(PDO::FETCH_ASSOC);
         return $resultArray;
     }
-    ?>
 
-    <h2>Aiakkaat from the database</h2>
-
-    <?php
     function show_books($a)
     {
       foreach ($a as $key)
@@ -56,6 +50,13 @@
       print_r($a);
       echo "</p>";
     }
+    ?>
+
+    <h2>Aiakkaat from the database</h2>
+
+    <?php
+    $books=get_books();
+    show_books($books);
     ?>
 
   </body>
