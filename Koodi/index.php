@@ -21,8 +21,8 @@
     	 print ("Error message: " . $e->getMessage () . "\n");
     	}
 
-    function get_books()
-    {
+//    function get_books()
+//    {
 //        include "connection.php";
         $sql = "SELECT * FROM asiakas";
         $resultObject = $db->query($sql);
