@@ -7,22 +7,38 @@
       <script src="rest.js"></script>
   </head>
   <body>
-<div id="login_status">
-  <?php
-  session_start();
-    if(isset($_SESSION['username'])){
-      echo 'Tervetuloa '.$_SESSION['username'].'<br>';
-      echo '<a href="../api/logout.php"><button>Kirjaudu ulos</button></a>';
-    }
-    else {
-      echo 'Tervetuloa vieras ';
-      echo '<a href="login.html"><button>Kirjaudu</button></a>';
-    }
-  ?>
-  <hr>
-</div>
 
-<div class="container">
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+      <a class="navbar-brand" href="#">          A-Pankki        </a>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link 1</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link 2</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link 3</a>
+        </li>
+      </ul>
+      <span class="navbar-text ml-auto">
+        <?php
+          session_start();
+          if(isset($_SESSION['username'])){
+            echo 'Tervetuloa '.$_SESSION['firstname'].' '.$_SESSION['lastname'];
+//            echo '<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>';
+//            echo 'Tervetuloa '.$_SESSION['firstname'].' '.$_SESSION['lastname'];
+            echo '<a href="../api/logout.php"><button  class="btn btn-link">Kirjaudu ulos</button></a>';
+          }
+          else {
+            echo 'Tervetuloa vieras ';
+            echo '<a href="../index.php"><button type="button" class="btn btn-link">Kirjaudu</button></a>';
+          }
+        ?>
+      </span>
+    </nav>
+
+<div class="container" style="margin:50px">
 
     <p>
         <button class="btn btn-primary" onclick="GetCustomers()">Kaikki asiakkaat</button>
