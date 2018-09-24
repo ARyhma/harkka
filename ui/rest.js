@@ -51,6 +51,100 @@ function GetCustomer_by_id() {
   xhttp.send();
 }
 
+function GetBalance_for_id(customer_id) {
+  var url ='../api/get_balance_by_id.php?id=' + customer_id;
+  var xhttp = new XMLHttpRequest();
+  xhttp.open('GET', url, true);
+  var jsonData = '';
+  var data = '<h2>Tilit</h2>';
+  data += '<table class="table table-striped table-bordered table-hover">';
+  data += '<thead><tr><th>Tilin Nimi</th><th>Tilinumero</th><th>Saldo</th><th></th></tr></thead><tbody>';
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      jsonData = JSON.parse(xhttp.responseText);
+      for (x in jsonData) {
+        data +=
+          '<tr><td>' + jsonData[x].tilinnimi + '</td>' +
+          '<td>' + jsonData[x].tilinumero + '</td>' +
+          '<td>' + jsonData[x].saldo + ' &euro; </td>' +
+          '<td><a href="../api/list_account_events.php?id=' +
+          jsonData[x].tiliID + '">Tapahtumat</a></td></tr>';
+      }
+      data += '</tbody></table>';
+      document.getElementById('tilit').innerHTML = data;
+    }
+  };
+  xhttp.send();
+}
+
+function GetAccountDetails_for_id(account_id) {
+  var url ='../api/get_account_details_by_id.php?id=' + account_id;
+  var xhttp = new XMLHttpRequest();
+  xhttp.open('GET', url, true);
+  var jsonData = '';
+  var data = '';
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      jsonData = JSON.parse(xhttp.responseText);
+      for (x in jsonData) {
+        data +=
+          '<tr><td>Tilinumero</td><td>' + jsonData[x].tilinumero + '</td>' +
+          '<td>IBAN</td><td>' + jsonData[x].iban + '</td></tr>' +
+          '<tr><td>Tilin Nimi</td><td>' + jsonData[x].tilinnimi + '</td>' +
+          '<td>Tilin Saldo</td><td>' + jsonData[x].saldo + ' &euro; </td><tr>' +
+          '<tr><td>SWIFT/BIC</td><td>' + jsonData[x].bic + '</td>' +
+          '<td>Tilin Omistaja</td><td>' + jsonData[x].etunimi + ' ' +
+          jsonData[x].sukunimi + '</td></tr>';
+      }
+      document.getElementById('tili_tiedot').innerHTML = data;
+    }
+  };
+  xhttp.send();
+}
+
+function Populate_dropdown_for_id(customer_id) {
+  var url ='../api/get_balance_by_id.php?id=' + customer_id;
+  var xhttp = new XMLHttpRequest();
+  xhttp.open('GET', url, true);
+  var jsonData = '';
+  var data = '';
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      jsonData = JSON.parse(xhttp.responseText);
+      for (x in jsonData) {
+        data += '<li><a class="dropdown-item" data-value="' + jsonData[x].tiliID + '" href="#">' + jsonData[x].tilinnimi + ' ' + jsonData[x].saldo + ' &euro;</a></li>';
+      }
+      document.getElementById('tee_uusi_maksu').innerHTML = data;
+    }
+  };
+  xhttp.send();
+}
+
+function GetCards_for_id(customer_id) {
+  var url ='../api/get_cards_by_id.php?id=' + customer_id;
+  var xhttp = new XMLHttpRequest();
+  xhttp.open('GET', url, true);
+  var jsonData = '';
+  var data = '<h2>Kortit</h2>';
+  data += '<table class="table table-striped table-bordered table-hover">';
+  data += '<thead><tr><th>Kortin Nimi</th><th>Voimassaolopäivä</th><th>Kortin Numero</th><th>Luottoraja</th></tr></thead><tbody>';
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      jsonData = JSON.parse(xhttp.responseText);
+      for (x in jsonData) {
+        data +=
+          '<tr><td>' + jsonData[x].pankkikortinnimi + '</td>' +
+          '<td>' + jsonData[x].voimassaolo + '</td>' +
+          '<td>' + jsonData[x].kortinnumero + '</td>' +
+          '<td>' + jsonData[x].luottoraja + ' &euro;</td></tr>';
+      }
+      data += '</tbody></table>';
+      document.getElementById('kortit').innerHTML = data;
+    }
+  };
+  xhttp.send();
+}
+
 function AddNewCustomer() {
 	var url = '../api/add_customer.php';
 	var xhttp = new XMLHttpRequest();

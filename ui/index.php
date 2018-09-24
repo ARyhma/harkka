@@ -5,6 +5,9 @@
     <title>A-Pankki</title>
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
       <script src="rest.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
   </head>
   <body>
 
@@ -26,8 +29,6 @@
           session_start();
           if(isset($_SESSION['username'])){
             echo 'Tervetuloa '.$_SESSION['firstname'].' '.$_SESSION['lastname'];
-//            echo '<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>';
-//            echo 'Tervetuloa '.$_SESSION['firstname'].' '.$_SESSION['lastname'];
             echo '<a href="../api/logout.php"><button  class="btn btn-link">Kirjaudu ulos</button></a>';
           }
           else {
@@ -41,6 +42,37 @@
 <div class="container" style="margin:50px">
 
     <p>
+      <script>
+        GetBalance_for_id(
+        <?php
+        session_start();
+        echo $_SESSION['asiakasID'];
+        ?>
+        );
+      </script>
+    </p>
+
+    <div class="container" id="tilit" style="max-width: 600px"></div>
+
+    <div class="container" id="tilit" style="max-width: 600px">
+      <p><a href="new_payment.php">Tee uusi maksu</a></p>
+    </div>
+
+    <p>
+      <script>
+        GetCards_for_id(
+        <?php
+        session_start();
+        echo $_SESSION['asiakasID'];
+        ?>
+        );
+      </script>
+    </p>
+
+    <div class="container" id="kortit" style="max-width: 600px"></div>
+
+
+    <!--p>
         <button class="btn btn-primary" onclick="GetCustomers()">Kaikki asiakkaat</button>
 
         Anna asiakas id
@@ -65,7 +97,7 @@
         </form>
         <button onclick="AddNewCustomer()">Lisää asiakas</button>
     </p>
-<!--    <p>
+    <p>
       Anna poistettavan kirjan id
       <input type="number" id="delete_id">
       <button class="btn btn-danger" onclick="DeleteBook()">Poista</button>
