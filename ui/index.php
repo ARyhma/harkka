@@ -12,7 +12,7 @@
   <body>
 
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-      <a class="navbar-brand" href="#">          A-Pankki        </a>
+      <a class="navbar-brand" href="#">A-Pankki</a>
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link" href="#">Link 1</a>
@@ -44,10 +44,7 @@
     <p>
       <script>
         GetBalance_for_id(
-        <?php
-        session_start();
-        echo $_SESSION['asiakasID'];
-        ?>
+        <?php echo $_SESSION['asiakasID']; ?>
         );
       </script>
     </p>
@@ -61,10 +58,7 @@
     <p>
       <script>
         GetCards_for_id(
-        <?php
-        session_start();
-        echo $_SESSION['asiakasID'];
-        ?>
+        <?php echo $_SESSION['asiakasID']; ?>
         );
       </script>
     </p>

@@ -67,7 +67,7 @@ function GetBalance_for_id(customer_id) {
           '<tr><td>' + jsonData[x].tilinnimi + '</td>' +
           '<td>' + jsonData[x].tilinumero + '</td>' +
           '<td>' + jsonData[x].saldo + ' &euro; </td>' +
-          '<td><a href="../api/list_account_events.php?id=' +
+          '<td><a href="show_transactions.php?id=' +
           jsonData[x].tiliID + '">Tapahtumat</a></td></tr>';
       }
       data += '</tbody></table>';
@@ -97,6 +97,7 @@ function GetAccountDetails_for_id(account_id) {
           jsonData[x].sukunimi + '</td></tr>';
       }
       document.getElementById('tili_tiedot').innerHTML = data;
+      document.getElementById('valitse_tili').setAttribute("data-value", account_id);
     }
   };
   xhttp.send();
@@ -143,6 +144,50 @@ function GetCards_for_id(customer_id) {
     }
   };
   xhttp.send();
+}
+
+function GetTransactions_for_id(customer_id) {
+  var url ='../api/get_transactions_by_id.php?id=' + customer_id;
+  var xhttp = new XMLHttpRequest();
+  xhttp.open('GET', url, true);
+  var jsonData = '';
+//  var data = '<table class="table table-striped table-bordered table-hover">';
+  var data = '<thead><tr><th>Saaja</th><th>IBAN</th><th>Viite</th><th>Viesti</th><th>Määrä</th><th>Aika</th></tr></thead><tbody>';
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      jsonData = JSON.parse(xhttp.responseText);
+      for (x in jsonData) {
+        data +=
+          '<tr><td>' + jsonData[x].saajannimi + '</td>' +
+          '<td>' + jsonData[x].iban + '</td>' +
+          '<td>' + jsonData[x].viite + '</td>' +
+          '<td>' + jsonData[x].viesti + '</td>' +
+          '<td>' + jsonData[x].maara + '</td>' +
+          '<td>' + jsonData[x].aika + '</td></tr>';
+      }
+      data += '</tbody></table>';
+      document.getElementById('tilitapahtumien_tiedot').innerHTML = data;
+    }
+  };
+  xhttp.send();
+}
+
+function AddNewPayment() {
+//  var tili = document.getElementById('valitse_tili').getAttribute("data-value");
+//  alert("tili ");
+	var url = '../api/add_payment.php';//?id=' + tili;
+	var xhttp = new XMLHttpRequest();
+	xhttp.open('POST', url, true);
+	var form = document.getElementById('AddNewPaymentForm');
+	var formData = new FormData(form);
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4 && xhttp.status == 201) {
+		document.getElementById('results').innerHTML = '<div class="alert alert-success">Maksu vahvistettu! Tee <a class="alert-link" href="new_payment.php">tästä uusi maksu</a>.</div>';
+		} else {
+		document.getElementById('results').innerHTML = '<div class="alert alert-danger"><strong>Hupsista!</strong> Virheitä tiedoissa.</div>';
+		}
+	};
+	xhttp.send(formData);
 }
 
 function AddNewCustomer() {

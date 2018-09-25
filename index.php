@@ -15,7 +15,7 @@
       <p><i>Se ystävällinen pankki</i></p>
     </div>
 
-    <div class="container" style="max-width: 400px;">
+    <div class="container" style="max-width: 400px; min-height: 350px">
       <?php
         if ( isset( $_GET['error'] ) && $_GET['error'] == '1' )
         {
@@ -38,7 +38,7 @@
   </div>
 
   <footer class="footer">
-        <div class="container">
+        <div class="container" style="background-color: #f5f5f5;">
           <div class="row text-center">
             <div class="col-sm-3">
               <h3>CTO</h3>

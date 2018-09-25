@@ -58,18 +58,17 @@
       $(function(){
         $(".dropdown-menu").on('click', 'li a', function(event){
           $("#valitse_tili").text($(this).text());
-//          $("#valitse_tili").val($(this).text());
           var x = this.getAttribute("data-value");
           GetAccountDetails_for_id(x);
-          document.getElementById("form_tili").value = x;
+          GetTransactions_for_id(x);
          });
       });
       </script>
 
       <br><br>
 
-      <div class="container" style="max-width: 800px">
-        <h3>Maksutilin Tiedot</h3>
+      <div class="container" style="max-width: 1000px">
+        <h3>Tilitiedot</h3>
         <table class="table table-bordered" id="tili_tiedot">
           <tr><td>Tilinumero</td><td></td>
           <td>IBAN</td><td></td></tr>
@@ -83,47 +82,14 @@
 
       <br>
 
-      <form id='AddNewPaymentForm'>
-        <div class="container-fluid">
-          <h3>Vastaanottajan Tiedot</h3>
-          <div class="row" style="padding:5px">
-            <div class="col-3">Tilinumero</div>
-            <div class="col"><input type="text" class="form-control" name="tilinumero" id="tilinumero" value="FI1234567890"></div>
-          </div>
-          <div class="row" style="padding:5px">
-            <div class="col-3">Nimi</div>
-            <div class="col"><input type="text" class="form-control" name="nimi" id="nimi"></div>
-          </div>
-          <div class="row" style="padding:5px">
-            <div class="col-3">Viite</div>
-            <div class="col"><input type="text" class="form-control" name="viite" id="viite"></div>
-          </div>
-          <div class="row" style="padding:5px">
-            <div class="col-3">Viesti</div>
-            <div class="col"><input type="text" class="form-control" name="viesti" id="viesti"></div>
-          </div>
-          <div class="row" style="padding:5px">
-            <div class="col-3">Eräpäivä</div>
-            <div class="col"><input type="text" class="form-control" name="erapaiva" id="erapaiva" value="<?php echo date("Y-m-d h:i:s"); ?>"></div>
-          </div>
-          <div class="row" style="padding:5px">
-            <div class="col-3">Maksun määrä</div>
-            <div class="col"><input type="text" class="form-control" name="maara" id="maara"></div>
-          </div>
-          <input type="hidden" name="form_tili" id="form_tili">
-        </div>
-      </form>
-      <div class="row" style="padding:20px 0 5px 0">
-        <div class="col-3"><button onclick='AddNewPayment()' class="btn btn-primary">Maksa</button></div>
-        <div class="col"><div class="container" id="results"></div></div>
+      <div class="container" style="max-width: 1000px">
+        <h3>Tilitapahtumat</h3>
+        <table class="table table-bordered" id="tilitapahtumien_tiedot">
+          <thead><tr><th>Saaja</th><th>IBAN</th><th>Viite</th><th>Viesti</th><th>Määrä</th><th>Aika</th></tr></thead>
+        </table>
       </div>
 
-      <!--script>
-      document.getElementById("zxc").addEventListener("click", function() {
-          AddNewPayment(document.getElementById('valitse_tili').getAttribute("data-value"));
-      }, false);
-    </script-->
-
+      </div>
     </div>
 
   </body>
