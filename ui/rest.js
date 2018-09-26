@@ -57,9 +57,6 @@ function GetBalance_for_id(customer_id) {
   xhttp.open('GET', url, true);
   var jsonData = '';
   var data = '';
-//  var data = '<h2>Tilit</h2>';
-//  data += '<table class="table table-striped table-bordered table-hover">';
-//  data += '<thead><tr><th>Tilin Nimi</th><th>Tilinumero</th><th>Saldo</th><th></th></tr></thead><tbody>';
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
       jsonData = JSON.parse(xhttp.responseText);
@@ -172,9 +169,6 @@ function GetCards_for_id(customer_id) {
   xhttp.open('GET', url, true);
   var jsonData = '';
   var data = '';
-//  var data = '<h2>Kortit</h2>';
-//  var data += '<table class="table table-striped table-bordered table-hover">';
-//  var data = '<thead><tr><th>Kortin Nimi</th><th>Voimassaolopäivä</th><th>Kortin Numero</th><th>Luottoraja</th></tr></thead><tbody>';
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
       jsonData = JSON.parse(xhttp.responseText);
@@ -245,7 +239,6 @@ function GetTransactions_for_id(customer_id) {
   var xhttp = new XMLHttpRequest();
   xhttp.open('GET', url, true);
   var jsonData = '';
-//  var data = '<table class="table table-striped table-bordered table-hover">';
   var data = '<thead><tr><th>Saaja</th><th>IBAN</th><th>Viite</th><th>Viesti</th><th>Määrä</th><th>Aika</th></tr></thead><tbody>';
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
