@@ -41,32 +41,30 @@
 
     <div class="container" style="margin:50px">
 
-      <div class="container" id="abc" style="max-width: 800px">
+      <div class="container" style="max-width: 800px">
 
-      <div class="dropdown" id="tilinro"></div>
-      <button type="button" class="btn btn-primary dropdown-toggle" id="valitse_tili" data-toggle="dropdown">Valitse tili</button>
-      <ul class="dropdown-menu" role="menu" id="tee_uusi_maksu">
-      </ul>
+      <div class="dropdown" id="tilinro">
+        <button type="button" class="btn btn-primary dropdown-toggle" id="valitse_tili" data-toggle="dropdown">Valitse tili</button>
+        <ul class="dropdown-menu" role="menu" id="tee_uusi_maksu">
+        </ul>
+      </div>
 
-        <script>
-          Populate_dropdown_for_id(
-          <?php echo $_SESSION['asiakasID']; ?>
-          );
-        </script>
+      <script>
+        Populate_dropdown_for_id( <?php echo $_SESSION['asiakasID']; ?> );
+      </script>
 
       <script>
       $(function(){
-        $(".dropdown-menu").on('click', 'li a', function(event){
+        $("#tee_uusi_maksu").on('click', 'li a', function(event){
           $("#valitse_tili").text($(this).text());
-//          $("#valitse_tili").val($(this).text());
           var x = this.getAttribute("data-value");
           GetAccountDetails_for_id(x);
-          document.getElementById("form_tili").value = x;
+          document.getElementById("form_tili_maksu").value = x;
          });
       });
       </script>
 
-      <br><br>
+      <br>
 
       <div class="container" style="max-width: 800px">
         <h3>Maksutilin Tiedot</h3>
@@ -74,26 +72,56 @@
           <tr><td>Tilinumero</td><td></td>
           <td>IBAN</td><td></td></tr>
           <tr><td>Tilin Nimi</td><td></td>
-          <td>Tilin Saldo</td><td> </td><tr>
+          <td>Tilin Saldo</td><td></td><tr>
           <tr><td>SWIFT/BIC</td><td></td>
           <td>Tilin Omistaja</td><td>
           </td></tr>
         </table>
       </div>
 
+
       <br>
+
+
+      <div class="dropdown" id="tilinro_vastaanottaja">
+      <button type="button" class="btn btn-primary dropdown-toggle" id="valitse_tili_vastaanottaja" data-toggle="dropdown">Valitse tili</button>
+      <ul class="dropdown-menu" role="menu" id="tee_uusi_maksu_vastaanottaja">
+      </ul>
+      </div>
+
+      <script>
+        Populate_dropdown_for_id_vastaanottaja( <?php echo $_SESSION['asiakasID']; ?> );
+      </script>
+
+      <script>
+      $(function(){
+        $("#tee_uusi_maksu_vastaanottaja").on('click', 'li a', function(event){
+          $("#valitse_tili_vastaanottaja").text($(this).text());
+          var x = this.getAttribute("data-value");
+          GetAccountDetails_for_id_vastaanottaja(x);
+          document.getElementById("form_tili_vastaanottaja").value = x;
+         });
+      });
+      </script>
+
+      <br>
+
+      <div class="container" style="max-width: 800px">
+        <h3>Vastaanottavan Tilin Tiedot</h3>
+        <table class="table table-bordered" id="tili_tiedot_vastaanottaja">
+          <tr><td>Tilinumero</td><td></td>
+          <td>IBAN</td><td></td></tr>
+          <tr><td>Tilin Nimi</td><td></td>
+          <td>Tilin Saldo</td><td></td><tr>
+          <tr><td>SWIFT/BIC</td><td></td>
+          <td>Tilin Omistaja</td><td>
+          </td></tr>
+        </table>
+      </div>
 
       <form id='AddNewPaymentForm'>
         <div class="container-fluid">
-          <h3>Vastaanottajan Tiedot</h3>
-          <div class="row" style="padding:5px">
-            <div class="col-3">Tilinumero</div>
-            <div class="col"><input type="text" class="form-control" name="tilinumero" id="tilinumero"></div>
-          </div>
-          <div class="row" style="padding:5px">
-            <div class="col-3">Nimi</div>
-            <div class="col"><input type="text" class="form-control" name="nimi" id="nimi"></div>
-          </div>
+          <h3>Maksun Lisätiedot</h3>
           <div class="row" style="padding:5px">
             <div class="col-3">Viite</div>
             <div class="col"><input type="text" class="form-control" name="viite" id="viite"></div>
@@ -110,11 +138,12 @@
             <div class="col-3">Maksun määrä</div>
             <div class="col"><input type="text" class="form-control" name="maara" id="maara"></div>
           </div>
-          <input type="hidden" name="form_tili" id="form_tili">
+          <input type="hidden" name="form_tili_maksu" id="form_tili_maksu">
+          <input type="hidden" name="form_tili_vastaanottaja" id="form_tili_vastaanottaja">
         </div>
       </form>
       <div class="row" style="padding:20px 0 5px 0">
-        <div class="col-3"><button onclick='AddNewPayment()' class="btn btn-primary">Maksa</button></div>
+        <div class="col-3"><button onclick='MoveMoneyBetweenAccounts()' class="btn btn-primary">Maksa</button></div>
         <div class="col"><div class="container" id="results"></div></div>
       </div>
 

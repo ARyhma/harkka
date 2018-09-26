@@ -83,6 +83,32 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `opisk_c8hape00`.`pankkikortit`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `opisk_c8hape00`.`elasku` ;
+
+CREATE TABLE IF NOT EXISTS `opisk_c8hape00`.`elasku` (
+  `elaskuID` INT NOT NULL AUTO_INCREMENT,
+  `saajannimi` VARCHAR(45) NULL,
+  `iban` VARCHAR(18) NULL,
+  `bic` VARCHAR(12) NULL,
+  `viite` VARCHAR(45) NULL,
+  `viesti` VARCHAR(45) NULL,
+  `maara` DECIMAL(20,2) NULL,
+  `asiakasid` INT NOT NULL,
+  `aika` DATETIME NULL,
+  `erapaiva` DATETIME NULL,
+  PRIMARY KEY (`elaskuID`),
+  INDEX `fk_elasku_asiakas_idx` (`asiakasid` ASC),
+  CONSTRAINT `fk_elasku_asiakas`
+    FOREIGN KEY (`asiakasid`)
+    REFERENCES `opisk_c8hape00`.`asiakas` (`asiakasID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `opisk_c8hape00`.`tapahtumat`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `opisk_c8hape00`.`tapahtumat` ;
@@ -157,7 +183,7 @@ START TRANSACTION;
 USE `opisk_c8hape00`;
 INSERT INTO `opisk_c8hape00`.`asiakas` (`asiakasID`, `etunimi`, `sukunimi`, `osoite`, `postinumero`, `postitoimipaikka`) VALUES (1, 'Tom', 'Jablonski', '305 - 14th Ave. S. Suite 3B', 98128, 'Seattle');
 INSERT INTO `opisk_c8hape00`.`asiakas` (`asiakasID`, `etunimi`, `sukunimi`, `osoite`, `postinumero`, `postitoimipaikka`) VALUES (2, 'Zbyszek', 'Wolski', 'ul. Filtrowa 68', 01012, 'Walla');
-INSERT INTO `opisk_c8hape00`.`asiakas` (`asiakasID`, `etunimi`, `sukunimi`, `osoite`, `postinumero`, `postitoimipaikka`) VALUES (3, 'Karl', 'Erichsen', 'Skagen 21', 4006, 'Stavanger');
+INSERT INTO `opisk_c8hape00`.`asiakas` (`asiakasID`, `etunimi`, `sukunimi`, `osoite`, `postinumero`, `postitoimipaikka`) VALUES (3, 'Karl', 'Erichsen', 'Skagen 21', 25506, 'Stavanger');
 INSERT INTO `opisk_c8hape00`.`asiakas` (`asiakasID`, `etunimi`, `sukunimi`, `osoite`, `postinumero`, `postitoimipaikka`) VALUES (4, 'Khloe', 'Espinoza', 'Duncannon St 99', 4006, 'London');
 INSERT INTO `opisk_c8hape00`.`asiakas` (`asiakasID`, `etunimi`, `sukunimi`, `osoite`, `postinumero`, `postitoimipaikka`) VALUES (5, 'Maddie', 'Fletcher', 'Cockspur St 101A', 01991, 'Manchester');
 INSERT INTO `opisk_c8hape00`.`asiakas` (`asiakasID`, `etunimi`, `sukunimi`, `osoite`, `postinumero`, `postitoimipaikka`) VALUES (6, 'Ebony', 'Ireland', 'Pall Mall Ave. 1021', 14006, 'Berlin');
@@ -190,7 +216,7 @@ INSERT INTO `opisk_c8hape00`.`tili` (`tiliID`, `tilinnimi`, `tilinumero`, `saldo
 INSERT INTO `opisk_c8hape00`.`tili` (`tiliID`, `tilinnimi`, `tilinumero`, `saldo`, `iban`, `bic`, `omistajaID`) VALUES (16, 'Athena-2', '987654-44676786', 83768.52, 'UK7329275353838735', 'APANKKI', 7);
 INSERT INTO `opisk_c8hape00`.`tili` (`tiliID`, `tilinnimi`, `tilinumero`, `saldo`, `iban`, `bic`, `omistajaID`) VALUES (17, 'Athena-3', '987654-45622233', 901870.10, 'UK9086178253567288', 'APANKKI', 7);
 INSERT INTO `opisk_c8hape00`.`tili` (`tiliID`, `tilinnimi`, `tilinumero`, `saldo`, `iban`, `bic`, `omistajaID`) VALUES (18, 'Zuzanna 1', '987654-67764422', 10927.68, 'SE9009297738003772', 'APANKKI', 8);
-INSERT INTO `opisk_c8hape00`.`tili` (`tiliID`, `tilinnimi`, `tilinumero`, `saldo`, `iban`, `bic`, `omistajaID`) VALUES (19, 'Zuzanna 2', '987654-55700656', 10927.25, 'SE9009297009820272', 'APANKKI', 8);
+INSERT INTO `opisk_c8hape00`.`tili` (`tiliID`, `tilinnimi`, `tilinumero`, `saldo`, `iban`, `bic`, `omistajaID`) VALUES (19, 'Zuzanna 2', '987654-55700656', 1027.25, 'SE9009297009820272', 'APANKKI', 8);
 INSERT INTO `opisk_c8hape00`.`tili` (`tiliID`, `tilinnimi`, `tilinumero`, `saldo`, `iban`, `bic`, `omistajaID`) VALUES (20, 'Zuzanna 3', '987654-22455609', 22901.52, 'SE9018202748020300', 'APANKKI', 8);
 INSERT INTO `opisk_c8hape00`.`tili` (`tiliID`, `tilinnimi`, `tilinumero`, `saldo`, `iban`, `bic`, `omistajaID`) VALUES (21, 'Zuzanna 4', '987654-70076000', 927.52, 'SE9092837932826500', 'APANKKI', 8);
 
@@ -226,6 +252,31 @@ COMMIT;
 
 
 -- -----------------------------------------------------
+-- Data for table `opisk_c8hape00`.`elasku`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `opisk_c8hape00`;
+INSERT INTO `opisk_c8hape00`.`elasku` (`elaskuID`, `saajannimi`, `iban`, `bic`, `viite`, `viesti`, `maara`, `asiakasID`, `aika`, `erapaiva`) VALUES (1, 'Vakuuttajat Oy', 'FI495094200230', 'OKOYFIHH', '1234567890', 'Vakuutusmaksu osa 3', 318.20, 1, '2018-09-19 12:53:07', '2018-10-19 12:00:00');
+INSERT INTO `opisk_c8hape00`.`elasku` (`elaskuID`, `saajannimi`, `iban`, `bic`, `viite`, `viesti`, `maara`, `asiakasID`, `aika`, `erapaiva`) VALUES (2, 'Sahkofirma Pulju', 'FI9836478348', 'APANKKI', '8373538494', 'Sahkolasku Syyskuu 2018', 58.12, 1, '2018-09-21 16:23:20', '2018-10-24 18:00:00');
+INSERT INTO `opisk_c8hape00`.`elasku` (`elaskuID`, `saajannimi`, `iban`, `bic`, `viite`, `viesti`, `maara`, `asiakasID`, `aika`, `erapaiva`) VALUES (3, 'Oulun Vesi Oy', 'FI5166896742', 'DABAFIHH', '485966483', 'Vesilasku 09-10/2018', 92.70, 1, '2018-09-22 18:32:29', '2018-10-22 14:00:00');
+INSERT INTO `opisk_c8hape00`.`elasku` (`elaskuID`, `saajannimi`, `iban`, `bic`, `viite`, `viesti`, `maara`, `asiakasID`, `aika`, `erapaiva`) VALUES (4, 'Oulun Pianokoulu Oy', 'FI3664578544', 'ABOOFIHH', '3756684999', 'Pianokoulun terkut', 63.94, 1, '2018-09-25 19:25:55', '2018-10-29 06:00:00');
+INSERT INTO `opisk_c8hape00`.`elasku` (`elaskuID`, `saajannimi`, `iban`, `bic`, `viite`, `viesti`, `maara`, `asiakasID`, `aika`, `erapaiva`) VALUES (5, 'Vakuuttajat Oy', 'FI495094200230', 'OKOYFIHH', '1234567890', 'Vakuutusmaksu osa 3', 23.11, 2, '2018-09-19 12:53:07', '2018-10-19 12:00:00');
+INSERT INTO `opisk_c8hape00`.`elasku` (`elaskuID`, `saajannimi`, `iban`, `bic`, `viite`, `viesti`, `maara`, `asiakasID`, `aika`, `erapaiva`) VALUES (6, 'Oulun Sahko', 'FI9836478348', 'APANKKI', '8373538494', 'Sahkolasku Syyskuu 2018', 58.12, 2, '2018-09-21 16:23:20', '2018-10-24 18:00:00');
+INSERT INTO `opisk_c8hape00`.`elasku` (`elaskuID`, `saajannimi`, `iban`, `bic`, `viite`, `viesti`, `maara`, `asiakasID`, `aika`, `erapaiva`) VALUES (7, 'Haukiputaan Vesi Oy', 'FI5166896742', 'DABAFIHH', '485966483', 'Vesilasku 09-10/2018', 35.70, 3, '2018-09-22 18:32:29', '2018-10-22 14:00:00');
+INSERT INTO `opisk_c8hape00`.`elasku` (`elaskuID`, `saajannimi`, `iban`, `bic`, `viite`, `viesti`, `maara`, `asiakasID`, `aika`, `erapaiva`) VALUES (8, 'Oulun Musakoulu Oy', 'FI3664578544', 'ABOOFIHH', '3756684999', 'Pianokoulun terkut', 28.94, 3, '2018-09-25 19:25:55', '2018-10-29 06:00:00');
+INSERT INTO `opisk_c8hape00`.`elasku` (`elaskuID`, `saajannimi`, `iban`, `bic`, `viite`, `viesti`, `maara`, `asiakasID`, `aika`, `erapaiva`) VALUES (9, 'Luottokunta', 'FI495094200230', 'OKOYFIHH', '1234567890', 'Luottolasku osa 3', 234.20, 4, '2018-09-19 12:53:07', '2018-10-19 12:00:00');
+INSERT INTO `opisk_c8hape00`.`elasku` (`elaskuID`, `saajannimi`, `iban`, `bic`, `viite`, `viesti`, `maara`, `asiakasID`, `aika`, `erapaiva`) VALUES (10, 'Sahkofirma Pulju', 'FI9836478348', 'APANKKI', '8373538494', 'Sahkolasku Syyskuu 2018', 58.12, 5, '2018-09-21 16:23:20', '2018-10-24 18:00:00');
+INSERT INTO `opisk_c8hape00`.`elasku` (`elaskuID`, `saajannimi`, `iban`, `bic`, `viite`, `viesti`, `maara`, `asiakasID`, `aika`, `erapaiva`) VALUES (11, 'Kiimingin Vesi Oy', 'FI5166896742', 'DABAFIHH', '485966483', 'Vesilasku 09-10/2018', 12.45, 6, '2018-09-22 18:32:29', '2018-10-22 14:00:00');
+INSERT INTO `opisk_c8hape00`.`elasku` (`elaskuID`, `saajannimi`, `iban`, `bic`, `viite`, `viesti`, `maara`, `asiakasID`, `aika`, `erapaiva`) VALUES (12, 'Oulun Musakoulu Oy', 'FI3664578544', 'ABOOFIHH', '3756684999', 'Pianokoulun terkut', 33.94, 6, '2018-09-25 19:25:55', '2018-10-29 06:00:00');
+INSERT INTO `opisk_c8hape00`.`elasku` (`elaskuID`, `saajannimi`, `iban`, `bic`, `viite`, `viesti`, `maara`, `asiakasID`, `aika`, `erapaiva`) VALUES (13, 'Luottolasku', 'FI495094200230', 'OKOYFIHH', '1234567890', 'Luottolasku osa 3', 218.20, 7, '2018-09-19 12:53:07', '2018-10-19 12:00:00');
+INSERT INTO `opisk_c8hape00`.`elasku` (`elaskuID`, `saajannimi`, `iban`, `bic`, `viite`, `viesti`, `maara`, `asiakasID`, `aika`, `erapaiva`) VALUES (14, 'Sahkofirma Pulju', 'FI9836478348', 'APANKKI', '8373538494', 'Sahkolasku Syyskuu 2018', 23.25, 8, '2018-09-21 16:23:20', '2018-10-24 18:00:00');
+INSERT INTO `opisk_c8hape00`.`elasku` (`elaskuID`, `saajannimi`, `iban`, `bic`, `viite`, `viesti`, `maara`, `asiakasID`, `aika`, `erapaiva`) VALUES (15, 'Oulunsalon Vesi Oy', 'FI5166896742', 'DABAFIHH', '485966483', 'Vesilasku 09-10/2018', 45.70, 8, '2018-09-22 18:32:29', '2018-10-22 14:00:00');
+INSERT INTO `opisk_c8hape00`.`elasku` (`elaskuID`, `saajannimi`, `iban`, `bic`, `viite`, `viesti`, `maara`, `asiakasID`, `aika`, `erapaiva`) VALUES (16, 'Pianokoulu Oy', 'FI3664578544', 'ABOOFIHH', '3756684999', 'Pianokoulun terkut', 75.75, 8, '2018-09-25 19:25:55', '2018-10-29 06:00:00');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
 -- Data for table `opisk_c8hape00`.`tapahtumat`
 -- -----------------------------------------------------
 START TRANSACTION;
@@ -251,7 +302,7 @@ INSERT INTO `opisk_c8hape00`.`tilitapahtumat` (`tilitapahtumaID`, `saajannimi`, 
 INSERT INTO `opisk_c8hape00`.`tilitapahtumat` (`tilitapahtumaID`, `saajannimi`, `iban`, `bic`, `viite`, `viesti`, `maara`, `tiliID`, `tapahtumaid`, `aika`, `erapaiva`) VALUES (7, 'Onni Onnela', 'FI46501194133', 'APANKKI', NULL, 'Kalliiksi kavi', 12.50, 7, 1, '2018-08-19 07:53:11', NULL);
 INSERT INTO `opisk_c8hape00`.`tilitapahtumat` (`tilitapahtumaID`, `saajannimi`, `iban`, `bic`, `viite`, `viesti`, `maara`, `tiliID`, `tapahtumaid`, `aika`, `erapaiva`) VALUES (8, 'Kalle Koski', 'FI4650152254432', 'DABAFIHH', NULL, 'Terkut', 41.20, 8, 2, '2018-08-19 04:53:13', NULL);
 INSERT INTO `opisk_c8hape00`.`tilitapahtumat` (`tilitapahtumaID`, `saajannimi`, `iban`, `bic`, `viite`, `viesti`, `maara`, `tiliID`, `tapahtumaid`, `aika`, `erapaiva`) VALUES (9, 'Miina Mainio', 'FI14589656884', 'OKOYFIHH', '12348765', 'Otolle rahaa', 20.20, 1, 1, '2018-05-19 12:53:07', NULL);
-INSERT INTO `opisk_c8hape00`.`tilitapahtumat` (`tilitapahtumaID`, `saajannimi`, `iban`, `bic`, `viite`, `viesti`, `maara`, `tiliID`, `tapahtumaid`, `aika`, `erapaiva`) VALUES (10, 'Matti Mainio', 'FI1321468556', 'DABAFIHH', '987654321', 'Sixpack massit', 1023, 2, 2, '2018-03-19 12:12:13', NULL);
+INSERT INTO `opisk_c8hape00`.`tilitapahtumat` (`tilitapahtumaID`, `saajannimi`, `iban`, `bic`, `viite`, `viesti`, `maara`, `tiliID`, `tapahtumaid`, `aika`, `erapaiva`) VALUES (10, 'Minna Mainio', 'FI1321468556', 'DABAFIHH', '987654321', 'Sixpack massit', 1023, 2, 2, '2018-03-19 12:12:13', NULL);
 INSERT INTO `opisk_c8hape00`.`tilitapahtumat` (`tilitapahtumaID`, `saajannimi`, `iban`, `bic`, `viite`, `viesti`, `maara`, `tiliID`, `tapahtumaid`, `aika`, `erapaiva`) VALUES (11, 'Kaija Katala', 'FI1322543467', 'APANKKI', '100225', 'Rahaa menee', 43.20, 3, 3, '2018-01-19 06:14:51', NULL);
 INSERT INTO `opisk_c8hape00`.`tilitapahtumat` (`tilitapahtumaID`, `saajannimi`, `iban`, `bic`, `viite`, `viesti`, `maara`, `tiliID`, `tapahtumaid`, `aika`, `erapaiva`) VALUES (12, 'Liisa Luopio', 'FI11942002803', 'OKOYFIHH', '387624', 'Osto kaksi', 12.24, 4, 1, '2018-09-19 12:32:12', NULL);
 INSERT INTO `opisk_c8hape00`.`tilitapahtumat` (`tilitapahtumaID`, `saajannimi`, `iban`, `bic`, `viite`, `viesti`, `maara`, `tiliID`, `tapahtumaid`, `aika`, `erapaiva`) VALUES (13, 'Tommi Tuomi', 'FI469420028003', 'APANKKI', '134525', 'Kalliiksi kavi', 5.30, 5, 2, '2018-07-19 18:53:47', NULL);

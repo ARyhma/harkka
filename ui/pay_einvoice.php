@@ -48,17 +48,14 @@
       <ul class="dropdown-menu" role="menu" id="tee_uusi_maksu">
       </ul>
 
-        <script>
-          Populate_dropdown_for_id(
-          <?php echo $_SESSION['asiakasID']; ?>
-          );
-        </script>
+      <script>
+        Populate_dropdown_for_id(<?php echo $_SESSION['asiakasID']; ?>);
+      </script>
 
       <script>
       $(function(){
         $(".dropdown-menu").on('click', 'li a', function(event){
           $("#valitse_tili").text($(this).text());
-//          $("#valitse_tili").val($(this).text());
           var x = this.getAttribute("data-value");
           GetAccountDetails_for_id(x);
           document.getElementById("form_tili").value = x;
@@ -88,15 +85,19 @@
           <h3>Vastaanottajan Tiedot</h3>
           <div class="row" style="padding:5px">
             <div class="col-3">Tilinumero</div>
-            <div class="col"><input type="text" class="form-control" name="tilinumero" id="tilinumero"></div>
+            <div class="col"><input type="text" class="form-control" name="tilinumero" id="tilinumero" readonly></div>
+          </div>
+          <div class="row" style="padding:5px">
+            <div class="col-3">BIC</div>
+            <div class="col"><input type="text" class="form-control" name="bic" id="bic" readonly></div>
           </div>
           <div class="row" style="padding:5px">
             <div class="col-3">Nimi</div>
-            <div class="col"><input type="text" class="form-control" name="nimi" id="nimi"></div>
+            <div class="col"><input type="text" class="form-control" name="nimi" id="nimi" readonly></div>
           </div>
           <div class="row" style="padding:5px">
             <div class="col-3">Viite</div>
-            <div class="col"><input type="text" class="form-control" name="viite" id="viite"></div>
+            <div class="col"><input type="text" class="form-control" name="viite" id="viite" readonly></div>
           </div>
           <div class="row" style="padding:5px">
             <div class="col-3">Viesti</div>
@@ -114,9 +115,13 @@
         </div>
       </form>
       <div class="row" style="padding:20px 0 5px 0">
-        <div class="col-3"><button onclick='AddNewPayment()' class="btn btn-primary">Maksa</button></div>
+        <div class="col-3"><button onclick='AddNewPaymentforEInvoice(<?php echo $_GET['id'] ?>)' class="btn btn-primary">Maksa</button></div>
         <div class="col"><div class="container" id="results"></div></div>
       </div>
+
+      <script>
+      Fill_EInvoice_info_for_id(<?php echo $_GET['id'] ?>);
+      </script>
 
     </div>
 

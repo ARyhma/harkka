@@ -8,7 +8,7 @@
 	$viesti=$_POST['viesti'];
 	$maara=$_POST['maara'];
 	$tiliID=$_POST['form_tili'];
-	$tapahtumaid="3"; // self service
+	$tapahtumaid="1"; // e-invoice
 	$aika=date("Y-m-d h:i:s");
 	$erapaiva=$_POST['erapaiva'];
 	$maara = $maara * -1; // negative
@@ -36,6 +36,12 @@
 		$sql->bindParam(':a_maara',$maara);
 		$sql->execute();
 
+		if(isset($_GET['id'])) {
+			$id=$_GET['id'];
+			$stmt=$db->prepare("DELETE FROM elasku WHERE elaskuID = :id");
+			$stmt->bindParam(':id',$id);
+			$stmt->execute();
+		}
 		http_response_code(201);
 	}
 ?>

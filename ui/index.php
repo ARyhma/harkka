@@ -43,28 +43,50 @@
 
     <p>
       <script>
-        GetBalance_for_id(
-        <?php echo $_SESSION['asiakasID']; ?>
-        );
+        GetBalance_for_id( <?php echo $_SESSION['asiakasID']; ?> );
       </script>
     </p>
 
-    <div class="container" id="tilit" style="max-width: 600px"></div>
+    <div class="container" style="max-width: 800px">
+      <h2>Tilit</h2>
+      <table class="table table-striped table-bordered table-hover">
+      <thead><tr><th>Tilin Nimi</th><th>Tilinumero</th><th>Saldo</th><th></th></tr></thead>
+      <tbody id="tilit"></tbody>
+      </table>
+    </div>
 
-    <div class="container" id="tilit" style="max-width: 600px">
+    <div class="container" id="tilit" style="max-width: 800px">
       <p><a href="new_payment.php">Tee uusi maksu</a></p>
+      <p><a href="move_money_between_accounts.php">Siirrä rahaa tilien välillä</a></p>
     </div>
 
     <p>
       <script>
-        GetCards_for_id(
-        <?php echo $_SESSION['asiakasID']; ?>
-        );
+        GetCards_for_id( <?php echo $_SESSION['asiakasID']; ?> );
       </script>
     </p>
 
-    <div class="container" id="kortit" style="max-width: 600px"></div>
+    <div class="container" style="max-width: 800px">
+      <h2>Kortit</h2>
+      <table class="table table-striped table-bordered table-hover">
+      <thead><tr><th>Kortin Nimi</th><th>Voimassaolopäivä</th><th>Kortin Numero</th><th>Luottoraja</th></tr></thead>
+      <tbody id="kortit"></tbody>
+      </table>
+    </div>
 
+    <p>
+      <script>
+        GetEInvoices_for_id( <?php echo $_SESSION['asiakasID']; ?> );
+      </script>
+    </p>
+
+    <div class="container"  style="max-width: 800px">
+      <h2>Saapuneet e-laskut</h2>
+      <table class="table table-striped table-bordered table-hover">
+      <thead><tr><th>Saaja</th><th>IBAN</th><th>Viesti</th><th>Määrä</th><th>Eräpäivä</th><th></th></tr></thead>
+      <tbody id="elaskut"></tbody>
+      </table>
+    </div>
 
     <!--p>
         <button class="btn btn-primary" onclick="GetCustomers()">Kaikki asiakkaat</button>

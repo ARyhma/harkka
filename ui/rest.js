@@ -56,9 +56,10 @@ function GetBalance_for_id(customer_id) {
   var xhttp = new XMLHttpRequest();
   xhttp.open('GET', url, true);
   var jsonData = '';
-  var data = '<h2>Tilit</h2>';
-  data += '<table class="table table-striped table-bordered table-hover">';
-  data += '<thead><tr><th>Tilin Nimi</th><th>Tilinumero</th><th>Saldo</th><th></th></tr></thead><tbody>';
+  var data = '';
+//  var data = '<h2>Tilit</h2>';
+//  data += '<table class="table table-striped table-bordered table-hover">';
+//  data += '<thead><tr><th>Tilin Nimi</th><th>Tilinumero</th><th>Saldo</th><th></th></tr></thead><tbody>';
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
       jsonData = JSON.parse(xhttp.responseText);
@@ -68,7 +69,7 @@ function GetBalance_for_id(customer_id) {
           '<td>' + jsonData[x].tilinumero + '</td>' +
           '<td>' + jsonData[x].saldo + ' &euro; </td>' +
           '<td><a href="show_transactions.php?id=' +
-          jsonData[x].tiliID + '">Tapahtumat</a></td></tr>';
+          jsonData[x].tiliID + '">Tapahtumat &raquo;</a></td></tr>';
       }
       data += '</tbody></table>';
       document.getElementById('tilit').innerHTML = data;
@@ -103,6 +104,32 @@ function GetAccountDetails_for_id(account_id) {
   xhttp.send();
 }
 
+function GetAccountDetails_for_id_vastaanottaja(account_id) {
+  var url ='../api/get_account_details_by_id.php?id=' + account_id;
+  var xhttp = new XMLHttpRequest();
+  xhttp.open('GET', url, true);
+  var jsonData = '';
+  var data = '';
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      jsonData = JSON.parse(xhttp.responseText);
+      for (x in jsonData) {
+        data +=
+          '<tr><td>Tilinumero</td><td>' + jsonData[x].tilinumero + '</td>' +
+          '<td>IBAN</td><td>' + jsonData[x].iban + '</td></tr>' +
+          '<tr><td>Tilin Nimi</td><td>' + jsonData[x].tilinnimi + '</td>' +
+          '<td>Tilin Saldo</td><td>' + jsonData[x].saldo + ' &euro; </td><tr>' +
+          '<tr><td>SWIFT/BIC</td><td>' + jsonData[x].bic + '</td>' +
+          '<td>Tilin Omistaja</td><td>' + jsonData[x].etunimi + ' ' +
+          jsonData[x].sukunimi + '</td></tr>';
+      }
+      document.getElementById('tili_tiedot_vastaanottaja').innerHTML = data;
+      document.getElementById('valitse_tili_vastaanottaja').setAttribute("data-value", account_id);
+    }
+  };
+  xhttp.send();
+}
+
 function Populate_dropdown_for_id(customer_id) {
   var url ='../api/get_balance_by_id.php?id=' + customer_id;
   var xhttp = new XMLHttpRequest();
@@ -121,14 +148,33 @@ function Populate_dropdown_for_id(customer_id) {
   xhttp.send();
 }
 
+function Populate_dropdown_for_id_vastaanottaja(customer_id) {
+  var url ='../api/get_balance_by_id.php?id=' + customer_id;
+  var xhttp = new XMLHttpRequest();
+  xhttp.open('GET', url, true);
+  var jsonData = '';
+  var data = '';
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      jsonData = JSON.parse(xhttp.responseText);
+      for (x in jsonData) {
+        data += '<li><a class="dropdown-item" data-value="' + jsonData[x].tiliID + '" href="#">' + jsonData[x].tilinnimi + ' ' + jsonData[x].saldo + ' &euro;</a></li>';
+      }
+      document.getElementById('tee_uusi_maksu_vastaanottaja').innerHTML = data;
+    }
+  };
+  xhttp.send();
+}
+
 function GetCards_for_id(customer_id) {
   var url ='../api/get_cards_by_id.php?id=' + customer_id;
   var xhttp = new XMLHttpRequest();
   xhttp.open('GET', url, true);
   var jsonData = '';
-  var data = '<h2>Kortit</h2>';
-  data += '<table class="table table-striped table-bordered table-hover">';
-  data += '<thead><tr><th>Kortin Nimi</th><th>Voimassaolopäivä</th><th>Kortin Numero</th><th>Luottoraja</th></tr></thead><tbody>';
+  var data = '';
+//  var data = '<h2>Kortit</h2>';
+//  var data += '<table class="table table-striped table-bordered table-hover">';
+//  var data = '<thead><tr><th>Kortin Nimi</th><th>Voimassaolopäivä</th><th>Kortin Numero</th><th>Luottoraja</th></tr></thead><tbody>';
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
       jsonData = JSON.parse(xhttp.responseText);
@@ -141,6 +187,54 @@ function GetCards_for_id(customer_id) {
       }
       data += '</tbody></table>';
       document.getElementById('kortit').innerHTML = data;
+    }
+  };
+  xhttp.send();
+}
+
+function GetEInvoices_for_id(customer_id) {
+  var url ='../api/get_einvoices_by_id.php?id=' + customer_id;
+  var xhttp = new XMLHttpRequest();
+  xhttp.open('GET', url, true);
+  var jsonData = '';
+  var data = '';
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      jsonData = JSON.parse(xhttp.responseText);
+      for (x in jsonData) {
+        data +=
+          '<tr><td>' + jsonData[x].saajannimi + '</td>' +
+          '<td>' + jsonData[x].iban + '</td>' +
+          '<td>' + jsonData[x].viesti + '</td>' +
+          '<td>' + jsonData[x].maara + '</td>' +
+          '<td>' + jsonData[x].erapaiva + '</td>' +
+          '<td><a href="pay_einvoice.php?id=' +
+          jsonData[x].elaskuID + '">Maksa&raquo;</a></td></tr>';
+
+      }
+      document.getElementById('elaskut').innerHTML = data;
+    }
+  };
+  xhttp.send();
+}
+
+function Fill_EInvoice_info_for_id(einvoice_id) {
+  var url ='../api/get_einvoice_by_invoiceid.php?id=' + einvoice_id;
+  var xhttp = new XMLHttpRequest();
+  xhttp.open('GET', url, true);
+  var jsonData = '';
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      jsonData = JSON.parse(xhttp.responseText);
+      for (x in jsonData) {
+          document.getElementById("tilinumero").value = jsonData[x].iban;
+          document.getElementById("bic").value = jsonData[x].bic;
+          document.getElementById("nimi").value =  jsonData[x].saajannimi;
+          document.getElementById("viite").value = jsonData[x].viite;
+          document.getElementById("viesti").value = jsonData[x].viesti;
+          document.getElementById("erapaiva").value = jsonData[x].erapaiva;
+          document.getElementById("maara").value = jsonData[x].maara;
+      }
     }
   };
   xhttp.send();
@@ -173,9 +267,7 @@ function GetTransactions_for_id(customer_id) {
 }
 
 function AddNewPayment() {
-//  var tili = document.getElementById('valitse_tili').getAttribute("data-value");
-//  alert("tili ");
-	var url = '../api/add_payment.php';//?id=' + tili;
+	var url = '../api/add_payment.php';
 	var xhttp = new XMLHttpRequest();
 	xhttp.open('POST', url, true);
 	var form = document.getElementById('AddNewPaymentForm');
@@ -190,6 +282,39 @@ function AddNewPayment() {
 	xhttp.send(formData);
 }
 
+function AddNewPaymentforEInvoice(einvoice_id) {
+	var url = '../api/add_payment_for_einvoice.php?id=' + einvoice_id;
+	var xhttp = new XMLHttpRequest();
+	xhttp.open('POST', url, true);
+	var form = document.getElementById('AddNewPaymentForm');
+	var formData = new FormData(form);
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4 && xhttp.status == 201) {
+    document.getElementById('results').innerHTML = '<div class="alert alert-success">Maksu vahvistettu! Takaisin <a class="alert-link" href="index.php">pääsivulle</a>.</div>';
+		} else {
+		document.getElementById('results').innerHTML = '<div class="alert alert-danger"><strong>Hupsista!</strong> Virheitä tiedoissa.</div>';
+		}
+	};
+	xhttp.send(formData);
+}
+
+function MoveMoneyBetweenAccounts() {
+	var url = '../api/move_money_between_accounts.php';
+	var xhttp = new XMLHttpRequest();
+	xhttp.open('POST', url, true);
+	var form = document.getElementById('AddNewPaymentForm');
+	var formData = new FormData(form);
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4 && xhttp.status == 201) {
+		document.getElementById('results').innerHTML = '<div class="alert alert-success">Maksu vahvistettu! Tee <a class="alert-link" href="new_payment.php">tästä uusi maksu</a>.</div>';
+		} else {
+		document.getElementById('results').innerHTML = '<div class="alert alert-danger"><strong>Hupsista!</strong> Virheitä tiedoissa.</div>';
+		}
+	};
+	xhttp.send(formData);
+}
+
+/*
 function AddNewCustomer() {
 	var url = '../api/add_customer.php';
 	var xhttp = new XMLHttpRequest();
@@ -237,3 +362,4 @@ function UpdateBook() {
 	};
 	xhttp.send(formData);
 }
+*/
