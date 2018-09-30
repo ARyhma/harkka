@@ -11,35 +11,9 @@
   </head>
   <body>
 
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-      <a class="navbar-brand" href="#">A-Pankki</a>
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link 1</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link 2</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link 3</a>
-        </li>
-      </ul>
-      <span class="navbar-text ml-auto">
-        <?php
-          session_start();
-          if(isset($_SESSION['username'])){
-            echo 'Tervetuloa '.$_SESSION['firstname'].' '.$_SESSION['lastname'];
-            echo '<a href="../api/logout.php"><button  class="btn btn-link">Kirjaudu ulos</button></a>';
-          }
-          else {
-            echo 'Tervetuloa vieras ';
-            echo '<a href="../index.php"><button type="button" class="btn btn-link">Kirjaudu</button></a>';
-          }
-        ?>
-      </span>
-    </nav>
+    <?php include 'navbar.php';?>
 
-<div class="container" style="margin:50px">
+    <div class="container" style="margin:40px">
 
     <p>
       <script>
@@ -55,9 +29,10 @@
       </table>
     </div>
 
-    <div class="container" id="tilit" style="max-width: 800px">
-      <p><a href="new_payment.php">Tee uusi maksu</a></p>
-      <p><a href="move_money_between_accounts.php">Siirrä rahaa tilien välillä</a></p>
+    <div class="container" id="tilit" style="max-width: 800px; ">
+        <button class="btn btn-outline-secondary" onclick="window.location.href = './new_payment.php';">Tee uusi maksu</button>
+        <button class="btn btn-outline-secondary" onclick="window.location.href = './move_money_between_accounts.php';">Siirrä rahaa tilien välillä</button>
+        <button class="btn btn-outline-secondary" onclick="window.location.href = './show_transactions.php';">Tilitapahtumat</button>
     </div>
 
     <p>
@@ -83,7 +58,7 @@
     <div class="container"  style="max-width: 800px">
       <h2>Saapuneet e-laskut</h2>
       <table class="table table-striped table-bordered table-hover">
-      <thead><tr><th>Saaja</th><th>IBAN</th><th>Viesti</th><th>Määrä</th><th>Eräpäivä</th><th></th></tr></thead>
+      <thead><tr><th>Laskuttaja</th><th>IBAN</th><th>Viesti</th><th>Määrä</th><th>Eräpäivä</th><th></th></tr></thead>
       <tbody id="elaskut"></tbody>
       </table>
     </div>

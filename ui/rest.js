@@ -299,7 +299,7 @@ function MoveMoneyBetweenAccounts() {
 	var formData = new FormData(form);
 	xhttp.onreadystatechange = function() {
 		if (xhttp.readyState == 4 && xhttp.status == 201) {
-		document.getElementById('results').innerHTML = '<div class="alert alert-success">Maksu vahvistettu! Tee <a class="alert-link" href="new_payment.php">tästä uusi maksu</a>.</div>';
+		document.getElementById('results').innerHTML = '<div class="alert alert-success">Maksu vahvistettu! Tee <a class="alert-link" href="move_money_between_accounts.php">tästä uusi maksu</a>.</div>';
 		} else {
 		document.getElementById('results').innerHTML = '<div class="alert alert-danger"><strong>Hupsista!</strong> Virheitä tiedoissa.</div>';
 		}

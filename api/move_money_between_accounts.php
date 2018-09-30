@@ -14,6 +14,12 @@
 	$etunimi_saaja = '';
 	$sukunimi_saaja = '';
 
+	if ( !isset($maara) || $maara == '' || $maara <= 0 )
+	{
+		http_response_code(404);
+		exit();
+	}
+
 // Maksajan osuus
 
 	// maksutilin tiedot
