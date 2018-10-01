@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>A-Pankki</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="ui/sticky-footer.css" rel="stylesheet">
   </head>
 
@@ -24,7 +25,7 @@
           echo '</div>';
         }
       ?>
-      <form id='LoginForm' action="./api/login.php" method="post">
+      <form id='LoginForm' action="./api/login.php" method="post" data-toggle="tooltip" title="Tunnus: yksi Salasana: yksi">
         <div class="form-group">
           <label for="username">Tunnus</label>
           <input type="text" class="form-control" id="username" name="username" placeholder="Syötä käyttäjätunnus">
@@ -41,20 +42,20 @@
         <div class="container" style="background-color: #f5f5f5;">
           <div class="row text-center">
             <div class="col-sm-3">
-              <h3>CTO</h3>
-              <p>Juho Rajala</p>
+              <span class="fa fa-user" style="font-size: 75px;"></span>
+              <h5>Juho<br>Rajala</h5>
             </div>
             <div class="col-sm-3">
-              <h3>CFO</h3>
-              <p>Antti Rajala</p>
+              <span class="fa fa-user" style="font-size: 75px;"></span>
+              <h5>Antti<br>Rajala</h5>
             </div>
             <div class="col-sm-3">
-              <h3>CMO</h3>
-              <p>Petteri Hamalainen</p>
+              <span class="fa fa-user" style="font-size: 75px;"></span>
+              <h5>Petteri<br>Hamalainen</h5>
             </div>
             <div class="col-sm-3">
-              <h3>COO</h3>
-              <p>Tomi Mujunen</p>
+              <span class="fa fa-user" style="font-size: 75px;"></span>
+              <h5>Tomi<br>Mujunen</h5>
             </div>
           </div>
         </div>
