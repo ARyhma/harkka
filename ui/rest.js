@@ -1,54 +1,37 @@
-function GetCustomers() {
-  var url = '../api/get_customers.php';
+function GetPerson_for_id(customer_id) {
+  var url ='../api/get_person_by_id.php?id=' + customer_id;
   var xhttp = new XMLHttpRequest();
   xhttp.open('GET', url, true);
   var jsonData = '';
-  var data = '<table class="table table-bordered table-hover">';
-  data += '<tr><th>asiakasID</th><th>Etunimi</th><th>Sukunimi</th><th>Osoite</th><th>Postinumero</th><th>Postitoimipaikka</th><th>Poista</th></tr>';
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
       jsonData = JSON.parse(xhttp.responseText);
       for (x in jsonData) {
-        data +=
-          '<tr><td>' + jsonData[x].asiakasID +
-          '</td><td>' + jsonData[x].etunimi +
-          '</td><td> ' + jsonData[x].sukunimi +
-          '</td><td> ' + jsonData[x].osoite +
-          '</td><td> ' + jsonData[x].postinumero +
-          '</td><td> ' + jsonData[x].postitoimipaikka +
-          '</td><td><a href="../api/delete_customer.php?id=' +
-          jsonData[x].asiakasID + '">Poista</a></td></tr>';
+        document.getElementById("etunimi").value = jsonData[x].etunimi;
+        document.getElementById("sukunimi").value = jsonData[x].sukunimi;
+        document.getElementById("osoite").value = jsonData[x].osoite;
+        document.getElementById("postinumero").value = jsonData[x].postinumero;
+        document.getElementById("postitoimipaikka").value = jsonData[x].postitoimipaikka;
       }
-      data += '</table>';
-      document.getElementById('results').innerHTML = data;
     }
   };
   xhttp.send();
 }
 
-function GetCustomer_by_id() {
-  var id = document.getElementById('customer_id').value;
-  var url ='../api/get_customer_by_id.php?id=';
-  url += id;
-  var xhttp = new XMLHttpRequest();
-  xhttp.open('GET', url, true);
-  var jsonData = '';
-  var data = '<table border="1">';
-  data += '<tr><th>Etunimi</th><th>Sukunimi</th></tr>';
-  xhttp.onreadystatechange = function() {
-    if (xhttp.readyState == 4 && xhttp.status == 200) {
-      jsonData = JSON.parse(xhttp.responseText);
-      for (x in jsonData) {
-        data +=
-          '<tr><td>' + jsonData[x].etunimi +
-          '</td><td> ' + jsonData[x].sukunimi +
-          '</td></tr>';
-      }
-      data += '</table>';
-      document.getElementById('results').innerHTML = data;
-    }
-  };
-  xhttp.send();
+function UpdatePerson(customer_id) {
+	var url = '../api/update_person.php?id=' + customer_id;
+	var xhttp = new XMLHttpRequest();
+	xhttp.open('POST', url, true);
+	var form = document.getElementById('UpdateForm');
+	var formData = new FormData(form);
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4 && xhttp.status == 201) {
+      document.getElementById('results').innerHTML = '<div class="alert alert-success">Tiedot muutettu! Takaisin <a class="alert-link" href="index.php">pääsivulle</a>.</div>';
+  		} else {
+  		document.getElementById('results').innerHTML = '<div class="alert alert-danger"><strong>Hupsista!</strong> Virheitä tiedoissa.</div>';
+		}
+	};
+	xhttp.send(formData);
 }
 
 function GetBalance_for_id(customer_id) {
@@ -240,6 +223,31 @@ function GetTransactions_for_id(customer_id) {
   xhttp.open('GET', url, true);
   var jsonData = '';
   var data = '<thead><tr><th>Saaja</th><th>IBAN</th><th>Viite</th><th>Viesti</th><th>Määrä</th><th>Aika</th></tr></thead><tbody>';
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      jsonData = JSON.parse(xhttp.responseText);
+      for (x in jsonData) {
+        data +=
+          '<tr><td>' + jsonData[x].saajannimi + '</td>' +
+          '<td>' + jsonData[x].iban + '</td>' +
+          '<td>' + jsonData[x].viite + '</td>' +
+          '<td>' + jsonData[x].viesti + '</td>' +
+          '<td>' + jsonData[x].maara + '</td>' +
+          '<td>' + jsonData[x].aika + '</td></tr>';
+      }
+      data += '</tbody></table>';
+      document.getElementById('tilitapahtumien_tiedot').innerHTML = data;
+    }
+  };
+  xhttp.send();
+}
+
+function GetPaidEinvoices_for_id(customer_id) {
+  var url ='../api/get_paid_einvoices_by_id.php?id=' + customer_id;
+  var xhttp = new XMLHttpRequest();
+  xhttp.open('GET', url, true);
+  var jsonData = '';
+  var data = '<thead><tr><th>Laskuttaja</th><th>IBAN</th><th>Viite</th><th>Viesti</th><th>Määrä</th><th>Aika</th></tr></thead><tbody>';
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
       jsonData = JSON.parse(xhttp.responseText);

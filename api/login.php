@@ -21,8 +21,6 @@ require "connection.php";
 			$sql2->execute();
 			$result2 = $sql2->fetchAll(PDO::FETCH_ASSOC);
 
-//			echo $result2[0]['etunimi'];
-//			echo $result2[0]['sukunimi'];
 			$_SESSION['firstname']=$result2[0]['etunimi'];
       $_SESSION['lastname']=$result2[0]['sukunimi'];
 

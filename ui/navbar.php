@@ -18,6 +18,7 @@
       session_start();
       if(isset($_SESSION['username'])){
         echo 'Tervetuloa '.$_SESSION['firstname'].' '.$_SESSION['lastname'];
+        echo '<a href="../ui/person.php?id='.$_SESSION['asiakasID'].'"><button  class="btn btn-link">Henkilötiedot</button></a>';
         echo '<a href="../api/logout.php"><button  class="btn btn-link">Kirjaudu ulos</button></a>';
       }
       else {
