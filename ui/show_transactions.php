@@ -13,9 +13,9 @@
 
     <?php include 'navbar.php';?>
 
-    <div class="container" style="margin:50px">
+    <div class="container" style="margin:40px auto">
 
-      <div class="container" id="abc" style="max-width: 800px">
+      <div class="container" id="abc" style="max-width: 1200px">
 
       <div class="dropdown" id="tilinro"></div>
       <button type="button" class="btn btn-primary dropdown-toggle" id="valitse_tili" data-toggle="dropdown">Valitse tili</button>
@@ -29,7 +29,7 @@
       <script>
       $(function(){
         $(".dropdown-menu").on('click', 'li a', function(event){
-          $("#valitse_tili").text($(this).text());
+          $("#valitse_tili ").text($(this).text());
           var x = this.getAttribute("data-value");
           GetAccountDetails_for_id(x);
           GetTransactions_for_id(x);
@@ -39,7 +39,7 @@
 
       <br><br>
 
-      <div class="container" style="max-width: 1000px">
+      <div class="container" style="max-width: 1200px">
         <h3>Tilitiedot</h3>
         <table class="table table-bordered" id="tili_tiedot">
           <tr><td>Tilinumero</td><td></td>
@@ -54,7 +54,7 @@
 
       <br>
 
-      <div class="container" style="max-width: 1000px">
+      <div class="container" style="max-width: 1200px">
         <h3>Tilitapahtumat</h3>
         <table class="table table-bordered" id="tilitapahtumien_tiedot">
           <thead><tr><th>Saaja</th><th>IBAN</th><th>Viite</th><th>Viesti</th><th>Määrä</th><th>Aika</th></tr></thead>

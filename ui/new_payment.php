@@ -75,7 +75,7 @@
           </div>
           <div class="row" style="padding:5px">
             <div class="col-3">Eräpäivä</div>
-            <div class="col"><input type="text" class="form-control" name="erapaiva" id="erapaiva" value="<?php echo date("Y-m-d h:i:s"); ?>"></div>
+            <div class="col"><input type="text" class="form-control" name="erapaiva" id="erapaiva" value="<?php echo date("d.m.Y"); ?>"></div>
           </div>
           <div class="row" style="padding:5px">
             <div class="col-3">Maksun määrä</div>
