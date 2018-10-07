@@ -48,8 +48,7 @@ function GetBalance_for_id(customer_id) {
           '<tr><td>' + jsonData[x].tilinnimi + '</td>' +
           '<td>' + jsonData[x].tilinumero + '</td>' +
           '<td>' + jsonData[x].saldo + ' &euro; </td>' +
-          '<td><a href="show_transactions.php?id=' +
-          jsonData[x].tiliID + '">Tapahtumat &raquo;</a></td></tr>';
+          '<td><a href="show_transactions.php?id=' + jsonData[x].tiliID + '">Tapahtumat &raquo;</a></td></tr>';
       }
       data += '</tbody></table>';
       document.getElementById('tilit').innerHTML = data;
@@ -233,7 +232,7 @@ function GetTransactions_for_id(customer_id) {
           '<td>' + jsonData[x].viite + '</td>' +
           '<td>' + jsonData[x].viesti + '</td>' +
           '<td>' + jsonData[x].maara + '</td>' +
-          '<td>' + jsonData[x].aika + '</td></tr>';
+          '<td>' + jsonData[x].pvm + '</td></tr>';
       }
       data += '</tbody></table>';
       document.getElementById('tilitapahtumien_tiedot').innerHTML = data;
@@ -258,7 +257,7 @@ function GetPaidEinvoices_for_id(customer_id) {
           '<td>' + jsonData[x].viite + '</td>' +
           '<td>' + jsonData[x].viesti + '</td>' +
           '<td>' + jsonData[x].maara + '</td>' +
-          '<td>' + jsonData[x].aika + '</td></tr>';
+          '<td>' + jsonData[x].pvm + '</td></tr>';
       }
       data += '</tbody></table>';
       document.getElementById('tilitapahtumien_tiedot').innerHTML = data;
