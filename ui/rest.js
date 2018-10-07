@@ -221,7 +221,7 @@ function GetTransactions_for_id(customer_id) {
   var xhttp = new XMLHttpRequest();
   xhttp.open('GET', url, true);
   var jsonData = '';
-  var data = '<thead><tr><th>Saaja</th><th>IBAN</th><th>Viite</th><th>Viesti</th><th>Määrä</th><th>Aika</th></tr></thead><tbody>';
+  var data = '<thead><tr><th>Saaja</th><th>IBAN</th><th>Viite</th><th>Viesti</th><th>Määrä</th><th>Tapahtuma</th><th>Aika</th></tr></thead><tbody>';
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
       jsonData = JSON.parse(xhttp.responseText);
@@ -232,6 +232,7 @@ function GetTransactions_for_id(customer_id) {
           '<td>' + jsonData[x].viite + '</td>' +
           '<td>' + jsonData[x].viesti + '</td>' +
           '<td>' + jsonData[x].maara + '</td>' +
+		  '<td>' + jsonData[x].tapahtuma + '</td>' +
           '<td>' + jsonData[x].pvm + '</td></tr>';
       }
       data += '</tbody></table>';

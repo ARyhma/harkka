@@ -57,7 +57,7 @@
       <div class="container" style="max-width: 1200px">
         <h3>Tilitapahtumat</h3>
         <table class="table table-bordered" id="tilitapahtumien_tiedot">
-          <thead><tr><th>Saaja</th><th>IBAN</th><th>Viite</th><th>Viesti</th><th>Määrä</th><th>Aika</th></tr></thead>
+          <thead><tr><th>Saaja</th><th>IBAN</th><th>Viite</th><th>Viesti</th><th>Määrä</th><th>Tapahtuma</th><th>Aika</th></tr></thead>
         </table>
       </div>
 
